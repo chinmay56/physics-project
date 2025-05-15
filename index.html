@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f1117">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Moment of Force Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styling for scroll behavior */
+        .specialized-simulator {
+            scroll-margin-top: 120px;
+        }
+        .section {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Moment of Force</div>
+        <button class="menu-toggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#simulator">Simulator</a></li>
+            <li><a href="#principle-of-moments">Principle of Moments</a></li>
+            <li><a href="#real-world">Real-World Applications</a></li>
+            <li><a href="#concept">Concept</a></li>
+            <li><a href="#videos">Videos</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>Moment of Force Simulator</h1>
+        <p>Interactive simulation to understand the concept of moment of force</p>
+        <div class="hero-buttons">
+            <a href="#simulator" class="btn btn-primary">Try Simulator</a>
+            <a href="#real-world" class="btn btn-secondary">Real-World Examples</a>
+            <a href="#principle-of-moments" class="btn btn-secondary">Principle of Moments</a>
+            <a href="#concept" class="btn btn-secondary">Learn More</a>
+        </div>
+    </section>
+
+    <section id="simulator" class="section">
+        <h2>Interactive Simulator</h2>
+        <div class="simulator-container">
+            <canvas id="simulator-canvas" width="800" height="400"></canvas>
+            <div class="glass-box">
+                <div class="controls">
+                    <div class="control-group">
+                        <h3>Add Force</h3>
+                        <div class="weight-control">
+                            <label>Weight (kg):</label>
+                            <input type="number" id="weightValue" min="1" max="100" value="10">
+                        </div>
+                        <div class="weight-control">
+                            <label>Position (cm):</label>
+                            <div class="position-control">
+                                <button class="position-btn" onclick="adjustPosition(-1)">-</button>
+                                <input type="number" id="weightPosition" min="-50" max="50" value="20">
+                                <button class="position-btn" onclick="adjustPosition(1)">+</button>
+                            </div>
+                            <small>Positive = Right, Negative = Left</small>
+                        </div>
+                        <div class="simulator-buttons">
+                            <button onclick="addForce()" class="btn btn-primary">Add Force</button>
+                            <button id="resetSimBtn" class="btn btn-danger">Reset Simulator</button>
+                            <button onclick="showNetMOF()" class="btn btn-secondary" style="margin-top: 1rem;">Show Net MOF</button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <h3>Instructions</h3>
+                        <p>1. Enter weight and position</p>
+                        <p>2. Click "Add Force" to place weight</p>
+                        <p>3. Click on a weight to remove it</p>
+                        <p>4. Watch how the lever balances!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="principle-of-moments" class="section">
+        <h2>Principle of Moments Calculator</h2>
+        <div class="calculator-container">
+            <div class="glass-box">
+                <div class="calculator-form">
+                    <h3>m₁ × d₁ = m₂ × d₂</h3>
+                    <p>Enter any three values to calculate the fourth</p>
+                    
+                    <div class="calculator-input-group">
+                        <div class="calculator-input">
+                            <label for="mass1">Mass 1 (m₁):</label>
+                            <input type="number" id="mass1" placeholder="kg">
+                        </div>
+                        <div class="calculator-input">
+                            <label for="distance1">Distance 1 (d₁):</label>
+                            <input type="number" id="distance1" placeholder="m">
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-input-group">
+                        <div class="calculator-input">
+                            <label for="mass2">Mass 2 (m₂):</label>
+                            <input type="number" id="mass2" placeholder="kg">
+                        </div>
+                        <div class="calculator-input">
+                            <label for="distance2">Distance 2 (d₂):</label>
+                            <input type="number" id="distance2" placeholder="m">
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-controls">
+                        <button id="calculateBtn" class="btn btn-primary">Calculate</button>
+                        <button id="resetBtn" class="btn btn-secondary">Reset</button>
+                        <button id="applyToSimBtn" class="btn btn-primary">Apply to Simulation</button>
+                    </div>
+                    
+                    <div id="result-container" class="calculator-result">
+                        <p id="calculation-result"></p>
+                        <p id="error-message" class="error-message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="real-world" class="section">
+        <h2>Real-World Applications</h2>
+        <div class="applications-container">
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Playground Physics</h3>
+                    <p>Seesaws demonstrate perfect equilibrium when weights are balanced according to their distances from the pivot point.</p>
+                    <button class="btn btn-primary demo-btn" data-target="seesaw-simulator">Try Demo</button>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Balances & Scales</h3>
+                    <p>Traditional balance scales use the principle of moments to measure mass by comparing an unknown mass with standard weights.</p>
+                    <button class="btn btn-primary demo-btn" data-target="scale-simulator">Try Demo</button>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-truck-loading"></i>
+                    </div>
+                    <h3>Cranes & Lifting</h3>
+                    <p>Construction cranes must carefully balance loads to prevent tipping. The counterweights are positioned to create opposing moments.</p>
+                    <button class="btn btn-primary demo-btn" data-target="crane-simulator">Try Demo</button>
+                </div>
+            </div>
+            
+            <!-- Specialized Simulators Section -->
+            <div class="specialized-simulators">
+                <!-- Seesaw Simulator -->
+                <div id="seesaw-simulator" class="specialized-simulator">
+                    <div class="simulator-header">
+                        <h3>Seesaw Balance</h3>
+                        <button class="close-simulator btn btn-sm btn-secondary"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="simulator-content">
+                        <canvas id="seesaw-canvas" width="600" height="300"></canvas>
+                        <div class="simulator-controls">
+                            <div class="control-group">
+                                <label>Left Weight:</label>
+                                <input type="range" id="left-weight" min="5" max="50" value="20" class="slider">
+                                <span id="left-weight-value">20 kg</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Left Distance:</label>
+                                <input type="range" id="left-distance" min="5" max="50" value="20" class="slider">
+                                <span id="left-distance-value">20 cm</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Right Weight:</label>
+                                <input type="range" id="right-weight" min="5" max="50" value="20" class="slider">
+                                <span id="right-weight-value">20 kg</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Right Distance:</label>
+                                <input type="range" id="right-distance" min="5" max="50" value="20" class="slider">
+                                <span id="right-distance-value">20 cm</span>
+                            </div>
+                            <div class="result-display">
+                                <p>Left Moment: <span id="left-moment">400 N·cm</span></p>
+                                <p>Right Moment: <span id="right-moment">400 N·cm</span></p>
+                                <p>Balance Status: <span id="balance-status">Balanced</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scale Simulator -->
+                <div id="scale-simulator" class="specialized-simulator">
+                    <div class="simulator-header">
+                        <h3>Balance Scale</h3>
+                        <button class="close-simulator btn btn-sm btn-secondary"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="simulator-content">
+                        <canvas id="scale-canvas" width="600" height="300"></canvas>
+                        <div class="simulator-controls">
+                            <div class="control-group">
+                                <label>Unknown Weight:</label>
+                                <button id="random-weight" class="btn btn-sm btn-primary">Generate Random Weight</button>
+                                <span id="unknown-weight-status">???</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Standard Weights:</label>
+                                <div class="weight-buttons">
+                                    <button class="btn btn-sm weight-btn" data-weight="5">5g</button>
+                                    <button class="btn btn-sm weight-btn" data-weight="10">10g</button>
+                                    <button class="btn btn-sm weight-btn" data-weight="20">20g</button>
+                                    <button class="btn btn-sm weight-btn" data-weight="50">50g</button>
+                                    <button class="btn btn-sm weight-btn" data-weight="100">100g</button>
+                                </div>
+                            </div>
+                            <div class="result-display">
+                                <p>Left Pan: <span id="left-pan-weight">0 g</span></p>
+                                <p>Right Pan: <span id="right-pan-weight">0 g</span></p>
+                                <p>Status: <span id="scale-status">Add weights to begin</span></p>
+                            </div>
+                            <button id="reset-scale" class="btn btn-secondary">Reset Scale</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Crane Simulator -->
+                <div id="crane-simulator" class="specialized-simulator">
+                    <div class="simulator-header">
+                        <h3>Crane Balance</h3>
+                        <button class="close-simulator btn btn-sm btn-secondary"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="simulator-content">
+                        <canvas id="crane-canvas" width="600" height="300"></canvas>
+                        <div class="simulator-controls">
+                            <div class="control-group">
+                                <label>Load Weight:</label>
+                                <input type="range" id="load-weight" min="10" max="100" value="50" class="slider">
+                                <span id="load-weight-value">50 tons</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Load Distance:</label>
+                                <input type="range" id="load-distance" min="5" max="50" value="20" class="slider">
+                                <span id="load-distance-value">20 m</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Counterweight:</label>
+                                <input type="range" id="counterweight" min="10" max="200" value="80" class="slider">
+                                <span id="counterweight-value">80 tons</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Counterweight Distance:</label>
+                                <input type="range" id="counterweight-distance" min="5" max="20" value="10" class="slider">
+                                <span id="counterweight-distance-value">10 m</span>
+                            </div>
+                            <div class="result-display">
+                                <p>Load Moment: <span id="load-moment">1000 ton·m</span></p>
+                                <p>Counterweight Moment: <span id="counterweight-moment">800 ton·m</span></p>
+                                <p>Stability: <span id="crane-stability">Caution: Load exceeds counterweight</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="application-detail">
+                <h3>Industrial Applications</h3>
+                <p>The principle of moments is crucial in designing machinery, vehicles, and structural systems:</p>
+                <ul class="industrial-examples">
+                    <li>
+                        <strong>Automotive Design:</strong> Weight distribution affects vehicle handling and stability
+                        <button class="btn btn-sm btn-primary demo-btn" data-target="automotive-simulator">Demo</button>
+                    </li>
+                    <li>
+                        <strong>Aircraft Balance:</strong> Proper weight distribution is critical for flight safety and efficiency
+                        <button class="btn btn-sm btn-primary demo-btn" data-target="aircraft-simulator">Demo</button>
+                    </li>
+                </ul>
+                
+                <!-- Automotive Simulator -->
+                <div id="automotive-simulator" class="specialized-simulator">
+                    <div class="simulator-header">
+                        <h3>Vehicle Weight Distribution</h3>
+                        <button class="close-simulator btn btn-sm btn-secondary"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="simulator-content">
+                        <canvas id="automotive-canvas" width="600" height="300"></canvas>
+                        <div class="simulator-controls">
+                            <div class="control-group">
+                                <label>Front Weight:</label>
+                                <input type="range" id="front-weight" min="30" max="70" value="50" class="slider">
+                                <span id="front-weight-value">50%</span>
+                            </div>
+                            <div class="result-display">
+                                <p>Distribution: <span id="weight-distribution">50/50</span></p>
+                                <p>Handling Characteristic: <span id="handling-characteristic">Neutral</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Aircraft Simulator -->
+                <div id="aircraft-simulator" class="specialized-simulator">
+                    <div class="simulator-header">
+                        <h3>Aircraft Balance</h3>
+                        <button class="close-simulator btn btn-sm btn-secondary"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="simulator-content">
+                        <canvas id="aircraft-canvas" width="600" height="300"></canvas>
+                        <div class="simulator-controls">
+                            <div class="control-group">
+                                <label>Forward Cargo:</label>
+                                <input type="range" id="forward-cargo" min="0" max="1000" value="400" class="slider">
+                                <span id="forward-cargo-value">400 kg</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Aft Cargo:</label>
+                                <input type="range" id="aft-cargo" min="0" max="1000" value="400" class="slider">
+                                <span id="aft-cargo-value">400 kg</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Fuel Distribution:</label>
+                                <input type="range" id="fuel-distribution" min="0" max="100" value="50" class="slider">
+                                <span id="fuel-distribution-value">50% forward</span>
+                            </div>
+                            <div class="result-display">
+                                <p>Center of Gravity: <span id="cg-position">On target</span></p>
+                                <p>Flight Characteristic: <span id="flight-characteristic">Neutral</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="concept" class="section">
+        <h2>Understanding Moment of Force</h2>
+        <div class="concept-content">
+            <p>The moment of force (or torque) is a measure of the tendency of a force to rotate an object about an axis. It is calculated as:</p>
+            <div class="formula">Moment = Force × Distance</div>
+            <p>Where:</p>
+            <ul>
+                <li>Force is measured in Newtons (N)</li>
+                <li>Distance is measured in meters (m)</li>
+                <li>Moment is measured in Newton-meters (N⋅m)</li>
+            </ul>
+            <div class="concept-note">
+                Note: The direction of rotation (clockwise or anticlockwise) is determined by the position of the force relative to the pivot point.
+            </div>
+            
+            <h3>Principle of Moments</h3>
+            <p>The principle of moments states that when a system is in equilibrium, the sum of clockwise moments equals the sum of anticlockwise moments about any point.</p>
+            <p>For a basic lever with weights on both sides:</p>
+            <div class="formula">m₁ × d₁ = m₂ × d₂</div>
+            <p>Where:</p>
+            <ul>
+                <li>m₁ = mass on one side</li>
+                <li>d₁ = distance from pivot to m₁</li>
+                <li>m₂ = mass on the other side</li>
+                <li>d₂ = distance from pivot to m₂</li>
+            </ul>
+            <p>This equation allows you to calculate any one of these values if you know the other three, making it possible to balance a lever system precisely.</p>
+        </div>
+    </section>
+
+    <section id="videos" class="section">
+        <h2>Educational Resources</h2>
+        <div class="resources-container">
+            <div class="resource-box video-box">
+                <div class="video-placeholder" onclick="openVideoPopup()">
+                    <div class="play-button">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <p>Click to view educational videos</p>
+                </div>
+            </div>
+            <div class="resource-box pdf-box">
+                <div class="pdf-placeholder" onclick="openPDFPopup()">
+                    <div class="pdf-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <p>Click to view PDF document</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Created for educational purposes</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="simulator-demos.js"></script>
+</body>
+</html> 
